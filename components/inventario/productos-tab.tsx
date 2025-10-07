@@ -28,7 +28,11 @@ interface Producto {
   tienda: string | null
 }
 
-export default function ProductosTab() {
+interface ProductosTabProps {
+  onProductosChange?: (total: number) => void
+}
+
+export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
   const { toast } = useToast()
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -59,6 +63,9 @@ export default function ProductosTab() {
       if (error) throw error
       setProductos(data || [])
       setFilteredProductos(data || [])
+      if (onProductosChange) {
+        onProductosChange(data?.length || 0)
+      }
     } catch (error) {
       console.error("[v0] Error cargando productos:", error)
       toast({
@@ -505,23 +512,28 @@ export default function ProductosTab() {
         </Card>
       ) : (
         <>
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              Mostrando {startIndex + 1}-{Math.min(endIndex, filteredProductos.length)} de {filteredProductos.length}{" "}
-              productos
-            </p>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-sm font-medium">
-                Página {currentPage} de {totalPages}
-              </span>
-              <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <Card className="bg-muted/50">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-foreground">
+                  Mostrando {startIndex + 1}-{Math.min(endIndex, filteredProductos.length)} de{" "}
+                  {filteredProductos.length} productos
+                  {searchTerm && " (filtrados)"}
+                </p>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <span className="text-sm font-medium">
+                    Página {currentPage} de {totalPages}
+                  </span>
+                  <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {currentProducts.map((producto) => (

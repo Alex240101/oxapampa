@@ -8,10 +8,13 @@ import { Package, LogOut, Home, Tag, AlertTriangle } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import ProductosTab from "@/components/inventario/productos-tab"
 import CategoriasTab from "@/components/inventario/categorias-tab"
+import { createClient } from "@/lib/supabase/client"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function InventarioPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
+  const [totalProductos, setTotalProductos] = useState(0)
 
   useEffect(() => {
     const hasSession = document.cookie.includes("admin_session")
@@ -19,8 +22,25 @@ export default function InventarioPage() {
       router.push("/login")
     } else {
       setIsLoading(false)
+      loadTotalProductos()
     }
   }, [router])
+
+  const loadTotalProductos = async () => {
+    try {
+      const supabase = createClient()
+      const { count, error } = await supabase.from("productos").select("*", { count: "exact", head: true })
+
+      if (error) {
+        console.error("[v0] Error contando productos:", error)
+        return
+      }
+
+      setTotalProductos(count || 0)
+    } catch (error) {
+      console.error("[v0] Error cargando total de productos:", error)
+    }
+  }
 
   const handleLogout = () => {
     document.cookie = "admin_session=; path=/; max-age=0"
@@ -95,7 +115,20 @@ export default function InventarioPage() {
 
       <main className="container mx-auto px-3 py-4 sm:px-4 sm:py-8">
         <div className="mb-4 sm:mb-8">
-          <h2 className="mb-1 sm:mb-2 text-xl sm:text-3xl font-bold text-foreground">Gestión de Inventario</h2>
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <h2 className="text-xl sm:text-3xl font-bold text-foreground">Gestión de Inventario</h2>
+            <Card className="border-primary/20 bg-primary/5">
+              <CardContent className="p-3 sm:p-4">
+                <div className="flex items-center gap-2">
+                  <Package className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Total Productos</p>
+                    <p className="text-lg sm:text-2xl font-bold text-foreground">{totalProductos}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           <p className="text-xs sm:text-base text-muted-foreground">
             Administre productos y categorías de la ferretería
           </p>
@@ -114,7 +147,7 @@ export default function InventarioPage() {
           </TabsList>
 
           <TabsContent value="productos" className="mt-4 sm:mt-6">
-            <ProductosTab />
+            <ProductosTab onProductosChange={setTotalProductos} />
           </TabsContent>
 
           <TabsContent value="categorias" className="mt-4 sm:mt-6">
