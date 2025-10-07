@@ -58,9 +58,12 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
   const loadProductos = async () => {
     try {
       const supabase = createClient()
-      const { data, error } = await supabase.from("productos").select("*").order("nombre")
+      const { data, error } = await supabase.from("productos").select("*").order("nombre").limit(10000)
 
       if (error) throw error
+
+      console.log("[v0] Productos cargados:", data?.length || 0)
+
       setProductos(data || [])
       setFilteredProductos(data || [])
       if (onProductosChange) {
@@ -327,7 +330,7 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
 
     try {
       const supabase = createClient()
-      const { data, error } = await supabase.from("productos").select("*").order("nombre")
+      const { data, error } = await supabase.from("productos").select("*").order("nombre").limit(10000)
 
       if (error) throw error
 
