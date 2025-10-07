@@ -56,30 +56,45 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
   })
 
   const loadProductos = async () => {
-    try {
-      const supabase = createClient()
-      const { data, error } = await supabase.from("productos").select("*").order("nombre").limit(10000)
+  setIsLoading(true)
+  try {
+    const supabase = createClient()
+    let allProducts: Producto[] = []
+    const BATCH_SIZE = 1000 // máximo por petición en Supabase
+    let start = 0
+    let fetchedCount = 0
+
+    do {
+      const { data, error } = await supabase
+        .from("productos")
+        .select("*")
+        .order("nombre")
+        .range(start, start + BATCH_SIZE - 1) // Trae un batch
 
       if (error) throw error
+      fetchedCount = data?.length || 0
+      if (data) allProducts = allProducts.concat(data)
 
-      console.log("[v0] Productos cargados:", data?.length || 0)
+      start += BATCH_SIZE
+    } while (fetchedCount === BATCH_SIZE) // Si llegó al límite, hay más productos
 
-      setProductos(data || [])
-      setFilteredProductos(data || [])
-      if (onProductosChange) {
-        onProductosChange(data?.length || 0)
-      }
-    } catch (error) {
-      console.error("[v0] Error cargando productos:", error)
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar los productos",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
+    console.log("[v0] Productos cargados:", allProducts.length)
+
+    setProductos(allProducts)
+    setFilteredProductos(allProducts)
+    if (onProductosChange) onProductosChange(allProducts.length)
+  } catch (error) {
+    console.error("[v0] Error cargando productos:", error)
+    toast({
+      title: "Error",
+      description: "No se pudieron cargar los productos",
+      variant: "destructive",
+    })
+  } finally {
+    setIsLoading(false)
   }
+}
+
 
   useEffect(() => {
     loadProductos()
@@ -330,7 +345,7 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
 
     try {
       const supabase = createClient()
-      const { data, error } = await supabase.from("productos").select("*").order("nombre").limit(10000)
+      const { data, error } = await supabase  .from("productos").select("*").order("nombre").limit(10000)
 
       if (error) throw error
 
