@@ -1,76 +1,87 @@
 {
-  "name": "Ilumitek - Sistema de Gestión",
+  "name": "Ilumitek - Sistema de Gestión Profesional",
   "short_name": "Ilumitek",
-  "description": "Sistema de gestión profesional para Ferretería Ilumitek. Administra inventario, ventas, compras, clientes y proveedores.",
-  "start_url": "/",
-  "scope": "/",
+  "description": "Sistema de gestión profesional para Ferretería Ilumitek. Administra inventario, ventas, compras, clientes y proveedores de manera eficiente.",
+  "start_url": "https://oxapampa.netlify.app/",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#0f172a",
   "theme_color": "#f97316",
-  "lang": "es",
+  "orientation": "any",
+  "scope": "https://oxapampa.netlify.app/",
+  "lang": "es-PE",
   "dir": "ltr",
-  "categories": ["business", "productivity"],
+  "categories": ["business", "productivity", "finance"],
   "icons": [
     {
-      "src": "/icons/icon-72x72.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-72x72.jpg",
       "sizes": "72x72",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-96x96.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-96x96.jpg",
       "sizes": "96x96",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-128x128.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-128x128.jpg",
       "sizes": "128x128",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-144x144.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-144x144.jpg",
       "sizes": "144x144",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-152x152.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-152x152.jpg",
       "sizes": "152x152",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-192x192.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-192x192.jpg",
       "sizes": "192x192",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-384x384.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-384x384.jpg",
       "sizes": "384x384",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.jpg",
+      "src": "https://oxapampa.netlify.app/icons/icon-512x512.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://oxapampa.netlify.app/icons/icon-maskable-192x192.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://oxapampa.netlify.app/icons/icon-maskable-512x512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ],
-  "screenshots": [],
   "shortcuts": [
     {
       "name": "Inventario",
       "short_name": "Inventario",
-      "description": "Gestionar inventario de productos",
-      "url": "/inventario",
+      "description": "Acceso rápido al inventario",
+      "url": "https://oxapampa.netlify.app/bienvenida?tab=inventario",
       "icons": [
         {
-          "src": "/icons/icon-192x192.jpg",
+          "src": "https://oxapampa.netlify.app/icons/icon-192x192.jpg",
           "sizes": "192x192",
           "type": "image/jpeg"
         }
@@ -79,16 +90,30 @@
     {
       "name": "Ventas",
       "short_name": "Ventas",
-      "description": "Registrar ventas",
-      "url": "/ventas",
+      "description": "Acceso rápido a ventas",
+      "url": "https://oxapampa.netlify.app/bienvenida?tab=ventas",
       "icons": [
         {
-          "src": "/icons/icon-192x192.jpg",
+          "src": "https://oxapampa.netlify.app/icons/icon-192x192.jpg",
+          "sizes": "192x192",
+          "type": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "name": "Compras",
+      "short_name": "Compras",
+      "description": "Acceso rápido a compras",
+      "url": "https://oxapampa.netlify.app/bienvenida?tab=compras",
+      "icons": [
+        {
+          "src": "https://oxapampa.netlify.app/icons/icon-192x192.jpg",
           "sizes": "192x192",
           "type": "image/jpeg"
         }
       ]
     }
   ],
+  "related_applications": [],
   "prefer_related_applications": false
 }

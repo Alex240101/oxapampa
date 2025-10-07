@@ -44,7 +44,7 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
   const [isExporting, setIsExporting] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(1)
-  const ITEMS_PER_PAGE = 50
+  const ITEMS_PER_PAGE = 100
 
   const [importProgress, setImportProgress] = useState({
     show: false,
@@ -457,13 +457,18 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
                   className="pl-10"
                 />
               </div>
-              <Button onClick={() => router.push("/inventario/productos/nuevo")}>
+              <Button onClick={() => router.push("/inventario/productos/nuevo")} className="w-full sm:w-auto">
                 <Plus className="mr-2 h-4 w-4" />
                 Nuevo Producto
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" onClick={handleImportClick} disabled={isImporting}>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button
+                variant="outline"
+                onClick={handleImportClick}
+                disabled={isImporting}
+                className="w-full sm:w-auto bg-transparent"
+              >
                 {isImporting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -476,7 +481,12 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
                   </>
                 )}
               </Button>
-              <Button variant="outline" onClick={handleExport} disabled={isExporting || productos.length === 0}>
+              <Button
+                variant="outline"
+                onClick={handleExport}
+                disabled={isExporting || productos.length === 0}
+                className="w-full sm:w-auto bg-transparent"
+              >
                 {isExporting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -513,21 +523,23 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
       ) : (
         <>
           <Card className="bg-muted/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-foreground">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <p className="text-xs sm:text-sm font-medium text-foreground">
                   Mostrando {startIndex + 1}-{Math.min(endIndex, filteredProductos.length)} de{" "}
                   {filteredProductos.length} productos
                   {searchTerm && " (filtrados)"}
                 </p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                   <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
                     <ChevronLeft className="h-4 w-4" />
+                    <span className="hidden sm:inline ml-1">Anterior</span>
                   </Button>
-                  <span className="text-sm font-medium">
-                    Página {currentPage} de {totalPages}
+                  <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
+                    Pág. {currentPage} de {totalPages}
                   </span>
                   <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    <span className="hidden sm:inline mr-1">Siguiente</span>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -597,15 +609,27 @@ export default function ProductosTab({ onProductosChange }: ProductosTabProps) {
             ))}
           </div>
 
-          <div className="flex items-center justify-center gap-2 pt-4">
-            <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="w-full sm:w-auto bg-transparent"
+            >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Anterior
             </Button>
-            <span className="text-sm font-medium px-4">
+            <span className="text-sm font-medium px-4 whitespace-nowrap">
               Página {currentPage} de {totalPages}
             </span>
-            <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="w-full sm:w-auto bg-transparent"
+            >
               Siguiente
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
